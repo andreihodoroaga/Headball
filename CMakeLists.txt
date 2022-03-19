@@ -21,6 +21,16 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 #
 #FetchContent_MakeAvailable(SomeLib)
 
+include(FetchContent)
+
+FetchContent_Declare(
+        SFML
+        GIT_REPOSITORY https://github.com/SFML/SFML.git
+        GIT_TAG        2888d9c56eba4dedb93a84a3c57957e4a907d428 # master as of 2021-11-18
+)
+
+FetchContent_MakeAvailable(SFML)
+
 ###############################################################################
 
 # NOTE: update executable name in .github/workflows/cmake.yml when changing name here
@@ -74,6 +84,10 @@ endif()
 #target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${<SomeLib>_SOURCE_DIR}/include)
 #target_link_directories(${PROJECT_NAME} PRIVATE ${<SomeLib>_BINARY_DIR}/lib)
 #target_link_libraries(${PROJECT_NAME} <SomeLib>)
+
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${SFML_SOURCE_DIR}/include)
+target_link_directories(${PROJECT_NAME} PRIVATE ${SFML_BINARY_DIR}/lib)
+target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system)
 
 ###############################################################################
 
