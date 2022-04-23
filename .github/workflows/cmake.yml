@@ -236,10 +236,8 @@ jobs:
 
       - name: Copy stdlib (MinGW)
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
-        # static linking might not work with MinGW, might be easier this way
         run: |
-          cp gcc/mingw64/bin/libstdc++-6.dll $GITHUB_WORKSPACE/artifacts/bin
-
+          cp gcc/mingw64/bin/libstdc++-6.dll $GITHUB_WORKSPACE/artifacts
       - name: Cppcheck
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
         run: cppcheck --enable=all --project=build/compile_commands.json -ibuild --suppress='*:build/*' --suppress=missingIncludeSystem --suppress=unmatchedSuppression --error-exitcode=1
@@ -248,10 +246,7 @@ jobs:
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-12'
         # config from https://gist.github.com/jfm535/7581ccadbd539303d8bed2f46f973108
         run: |
-          # clang-tidy is not able to follow symbolic links: https://bugs.llvm.org/show_bug.cgi?id=47460
-          # need to use | as separator because / is used in paths
           sed -i "s|$(which clang++-12)|$(realpath $(which clang++-12))|g" build/compile_commands.json
-
           cat build/compile_commands.json |
             jq -r '.[] | .file' |           # select source file paths from CMake project; -r to strip quotes
             grep -v "/build/_deps/" |       # ignore external dependencies
@@ -275,28 +270,28 @@ jobs:
             -DCMAKE_BUILD_WITH_INSTALL_RPATH=true
           cmake --build . -j6 -- cxx cxxabi
 
-      - name: Sanitizers
+#       - name: Sanitizers
         # run one sanitizer for each OS to avoid building extra binaries;
         # memory on Linux clang, address on macOS clang
         # if: runner.os != 'Windows'
-        if: startsWith(matrix.cxx, 'clang++')
+#         if: startsWith(matrix.cxx, 'clang++')
         # detect_leaks is not supported on macOS
         # env:
         # ASAN_OPTIONS: detect_leaks=1
         # NOTE: update executable name if it is changed in CMakeLists.txt
-        run: |
-          cat date.txt | ./artifacts/bin/oop
+#         run: |
+#           cat date.txt | ./artifacts/bin/oop
 
-      - name: Valgrind
-        if: runner.os == 'Linux' && matrix.cxx == 'g++-10'
+#       - name: Valgrind
+#         if: runner.os == 'Linux' && matrix.cxx == 'g++-10'
         # NOTE: update executable name if it is changed in CMakeLists.txt
-        run: |
+#         run: |
           # remove --show-leak-kinds=all --track-origins=yes if there are many leaks in external libs
-          cat date.txt | valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=1 ./artifacts/bin/oop
+#           cat date.txt | valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=1 ./artifacts/bin/oop
 
-      - name: Move artifacts
-        run: |
-          mv artifacts/bin bin
+#       - name: Move artifacts
+#         run: |
+#           mv artifacts/bin bin
 
       - name: Set Tag Name
         if: startsWith(github.ref, 'refs/tags/')
@@ -309,7 +304,7 @@ jobs:
         with:
           type: 'zip'
           path: bin
-          filename: ${{ env.BUILD_TYPE }}_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
+          filename: release_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
 
       - name: Release
         uses: softprops/action-gh-release@v1
