@@ -48,6 +48,7 @@ jobs:
             c: gcc-10
             cxx: g++-10
             name: Ubuntu 20.04 GCC 10
+            cmake_flags: -DBUILD_SHARED_LIBS=FALSE
             # cmake_flags:
             # This env runs valgrind
 
@@ -77,6 +78,7 @@ jobs:
             cxx: g++
             name: Windows 2022 GCC 10
             # cmake_flags:
+            cmake_flags: -DBUILD_SHARED_LIBS=TRUE
             cmake_generator: Ninja
             # Ninja is faster
             # other generator: "\"MinGW Makefiles\""
@@ -113,7 +115,9 @@ jobs:
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-12'
         run: |
           sudo apt-get update
-          sudo apt-get install clang-tidy libc++-12-dev libc++abi-12-dev
+          sudo apt-get install clang-tidy libc++-12-dev libc++abi-12-dev \
+            libxkbcommon-x11-0 \
+            libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xfixes0
 
       - name: Install ninja libc++ (Linux Clang 11)
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
@@ -125,7 +129,9 @@ jobs:
         if: runner.os == 'Linux' && matrix.cxx == 'g++-10'
         run: |
           sudo apt-get update
-          sudo apt-get install valgrind
+          sudo apt-get install valgrind \
+            libxkbcommon-x11-0 \
+            libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xfixes0
 
       - name: Cache tools
         uses: actions/cache@v2
@@ -133,7 +139,7 @@ jobs:
         id: cache-tools
         with:
           path: tools
-          key: tools-cppcheck-2.6-clang-11
+          key: tools-cppcheck-sanitizers
 
       - name: Build tools
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11' && steps.cache-tools.outputs.cache-hit != 'true'
@@ -164,21 +170,21 @@ jobs:
       #   with:
       #     path: |
       #       build/_deps
-      #     key: cache-${{ matrix.cmake_generator }}-${{ matrix.os }}-${{ matrix.cxx }}
+      #     key: cache-1-${{ env.BUILD_TYPE }}-${{ matrix.os }}-${{ matrix.cxx }}-${{ env.SFML_VERSION }}
 
       # NOTE: GH Actions does not allow updating the cache yet
       # Using the workaround found here: https://github.com/actions/cache/issues/171
       # Since this cache is small, it should not fill the cache too much
-      - name: Cache Ninja deps
+      - name: Cache deps (MinGW Ninja)
         uses: actions/cache@v2
-        if: matrix.cmake_generator == 'Ninja'
+        if: runner.os == 'Windows' && matrix.cxx == 'g++'
         id: cache-deps-ninja
+        # make this cache dependent on cmake generator
         with:
           path: |
             build/.ninja_deps
             build/.ninja_log
-          key: ${{ matrix.os }}-${{ matrix.cxx }}-ninja-cache-${{ hashFiles('CMakeLists.txt') }}
-          restore-keys: ${{ matrix.os }}-${{ matrix.cxx }}-ninja-cache-
+          key: ${{ matrix.os }}-${{ matrix.cxx }}-ninja-cache
 
       - name: Cache MinGW
         uses: actions/cache@v2
@@ -186,7 +192,7 @@ jobs:
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
         with:
           path: gcc
-          key: ${{ runner.os }}-gcc-11.2-ucrt-r5
+          key: ${{ runner.os }}-gcc-10
 
       - name: Download toolchain (MinGW)
         uses: suisei-cn/actions-download-file@v1
@@ -196,13 +202,13 @@ jobs:
         # For more versions, see https://winlibs.com or
         # https://github.com/brechtsanders/winlibs_mingw/releases/
         with:
-          url: "https://github.com/brechtsanders/winlibs_mingw/releases/download/11.2.0-9.0.0-ucrt-r5/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64ucrt-9.0.0-r5.7z"
+          url: "https://github.com/brechtsanders/winlibs_mingw/releases/download/10.3.0-12.0.0-9.0.0-r2/winlibs-x86_64-posix-seh-gcc-10.3.0-mingw-w64-9.0.0-r2.7z"
           target: compiler
 
       - name: Install toolchain (MinGW)
         if: runner.os == 'Windows' && matrix.cxx == 'g++' && steps.cache-mingw.outputs.cache-hit != 'true'
         run: |
-          7z x compiler/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64ucrt-9.0.0-r5.7z -ogcc
+          7z x compiler/winlibs-x86_64-posix-seh-gcc-10.3.0-mingw-w64-9.0.0-r2.7z -ogcc
 
       - name: Configure CMake (MinGW)
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
@@ -211,15 +217,14 @@ jobs:
           CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B build \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts \
-            ${{ matrix.cmake_flags }}
+            ${{matrix.cmake_flags}}
 
       - name: Configure CMake
-        if: ${{ !(runner.os == 'Windows' && matrix.cxx == 'g++') }}
         run: |
           CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B build \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts \
-            ${{ matrix.cmake_flags }}
+            ${{matrix.cmake_flags}}
 
       - name: Build
         # Execute the build using N jobs (-jN)
