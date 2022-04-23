@@ -269,33 +269,6 @@ jobs:
             -DLLVM_USE_SANITIZER=MemoryWithOrigins \
             -DCMAKE_BUILD_WITH_INSTALL_RPATH=true
           cmake --build . -j6 -- cxx cxxabi
-
-      - name: Make scripts executable
-        if: runner.os == 'Linux'
-        run: |
-          chmod +x ./run.sh
-          chmod +x ./run_valgrind.sh
-
-      - name: Test 2
-        uses: GabrielBB/xvfb-action@v1
-        if: runner.os == 'Linux' && matrix.cxx == 'clang++-12'
-        env:
-           ASAN_OPTIONS: halt_on_error=0
-           DISPLAY: :99.0
-        with:
-          run: |
-            ./run.sh
-          working-directory: ${{github.workspace}}
-
-      - name: Test 3
-        uses: GabrielBB/xvfb-action@v1
-        if: runner.os == 'Linux' && matrix.cxx == 'g++-10'
-        env:
-          DISPLAY: :99.0
-        with:
-          run: |
-            ./run_valgrind.sh
-          working-directory: ${{github.workspace}}
           
 #       - name: Sanitizers
         # run one sanitizer for each OS to avoid building extra binaries;
