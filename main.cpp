@@ -131,7 +131,7 @@ public:
         m_player.move(m_movementSpeed, 0.f);
     }
     void jump() {
-        m_player.move(0, static_cast<float>(-jumpSpeed)); // "narrowing conversion from double to float" error
+        m_player.move(0, float(-jumpSpeed)); // "narrowing conversion from double to float" error
         m_isJumping = true;
     }
     void setIsJumping(const bool isJumping) {
@@ -139,7 +139,7 @@ public:
     }
     void checkJumpFinish() {
         if (m_player.getPosition().y < m_groundHeight && !m_isJumping) {
-            m_player.move(0, static_cast<float>(m_gravitySpeed));
+            m_player.move(0, float(m_gravitySpeed));
         }
     }
     void goalBoundsCollision(sf::Vector2u windowSize, float goalWidth) {
