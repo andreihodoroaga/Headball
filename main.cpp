@@ -90,8 +90,8 @@ private:
     sf::Sprite m_player;
     float m_movementSpeed;
     // gravity variables
-    const float m_groundHeight = 330.f;
-    const float m_gravitySpeed = 0.3;
+    const double m_groundHeight = 330.f;
+    const double m_gravitySpeed = 0.3;
     bool m_isJumping = false;
     const float jumpSpeed = 0.2;
 
