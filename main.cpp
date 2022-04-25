@@ -39,9 +39,9 @@ public:
         return m_ball;
     }
     // miscare minge
-    void Move() {
-        m_ball.setPosition(sf::Vector2f(100, 200));
-    }
+//    void Move() {
+//        m_ball.setPosition(sf::Vector2f(100, 200));
+//    }
 };
 
 class Goal {
@@ -96,18 +96,18 @@ private:
     const float jumpSpeed = 0.2;
 
 public:
-    Player(const std::string& texturePath) : m_texturePath{texturePath} {
+    Player(const std::string& texturePath, const float& movementSpeed) : m_texturePath{texturePath}, m_movementSpeed{movementSpeed} {
         m_texture.loadFromFile(texturePath);
         m_player.setTexture(m_texture);
         m_player.setPosition(300, 250);
-        m_movementSpeed = 0.1;
         std::cout << "Constructor de initializare Player.\n";
     }
-    Player(const Player& other) : m_texturePath{other.m_texturePath} {
+    Player(const Player& other) : m_texturePath{other.m_texturePath}, m_movementSpeed{other.m_movementSpeed}{
         std::cout << "Constructor de copiere Player.\n";
     }
     Player& operator=(const Player& other) {
         m_texturePath = other.m_texturePath;
+        m_movementSpeed = other.m_movementSpeed;
         std::cout << "operator= de copiere Player.\n";
         return *this;
     }
@@ -231,7 +231,7 @@ void Window::ToggleFullscreen(){
 void Window::Clear(){ m_window.clear(sf::Color::Black); }
 void Window::Display(){ m_window.display(); }
 bool Window::IsDone() const{ return m_isDone; }
-bool Window::IsFullscreen(){ return m_isFullscreen; }
+//bool Window::IsFullscreen(){ return m_isFullscreen; }
 sf::Vector2u Window::GetWindowSize(){ return m_windowSize; }
 void Window::Draw(sf::Drawable& l_drawable){
     m_window.draw(l_drawable);
@@ -241,7 +241,7 @@ class Game {
 private:
     Window m_window;
     Ball ball{"../../../resources/ball1.png", sf::Vector2i(1,1)};
-    Player player{"../../../resources/player.gif"};
+    Player player{"../../../resources/player.gif", 0.1f};
     Goal goalRight{"../../../resources/goal1.png", sf::Vector2u(718,330)};
     Goal goalLeft{"../../../resources/goal2.png", sf::Vector2u(0,330)};
 public:
