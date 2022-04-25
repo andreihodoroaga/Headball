@@ -93,7 +93,7 @@ private:
     const double m_groundHeight = 330.f;
     const double m_gravitySpeed = 0.3;
     bool m_isJumping = false;
-    const float jumpSpeed = 0.2;
+    const double jumpSpeed = 0.2;
 
 public:
     Player(const std::string& texturePath, const float& movementSpeed) : m_texturePath{texturePath}, m_movementSpeed{movementSpeed} {
@@ -131,7 +131,7 @@ public:
         m_player.move(m_movementSpeed, 0.f);
     }
     void jump() {
-        m_player.move(0, -jumpSpeed);
+        m_player.move(0, static_cast<float>(-jumpSpeed)); // "narrowing conversion from double to float" error
         m_isJumping = true;
     }
     void setIsJumping(const bool isJumping) {
@@ -139,7 +139,7 @@ public:
     }
     void checkJumpFinish() {
         if (m_player.getPosition().y < m_groundHeight && !m_isJumping) {
-            m_player.move(0, m_gravitySpeed);
+            m_player.move(0, static_cast<float>(m_gravitySpeed));
         }
     }
     void goalBoundsCollision(sf::Vector2u windowSize, float goalWidth) {
@@ -149,8 +149,8 @@ public:
             m_player.setPosition(goalWidth, playerBounds.top);
         }
         // right goal collision
-        else if (playerBounds.left + playerBounds.width >= windowSize.x - goalWidth) {
-            m_player.setPosition(windowSize.x - goalWidth - playerBounds.width, playerBounds.top);
+        else if (playerBounds.left + playerBounds.width >= float(windowSize.x) - goalWidth) {
+            m_player.setPosition(float(windowSize.x) - goalWidth - playerBounds.width, playerBounds.top);
         }
     }
 };
@@ -175,7 +175,7 @@ public:
     void Display(); // Display the changes.
     void Update(Player& player);
     bool IsDone() const;
-    bool IsFullscreen();
+//    bool IsFullscreen();
     sf::Vector2u GetWindowSize();
     void ToggleFullscreen();
     void Draw(sf::Drawable& l_drawable);
