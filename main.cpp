@@ -90,10 +90,10 @@ private:
     sf::Sprite m_player;
     float m_movementSpeed;
     // gravity variables
-    const double m_groundHeight = 330.f;
-    const double m_gravitySpeed = 0.3;
+    const float m_groundHeight = 330.f;
+    const float m_gravitySpeed = 0.3;
     bool m_isJumping = false;
-    const double jumpSpeed = 0.2;
+    const float jumpSpeed = 0.2;
 
 public:
     Player(const std::string& texturePath, const float& movementSpeed) : m_texturePath{texturePath}, m_movementSpeed{movementSpeed} {
@@ -131,7 +131,7 @@ public:
         m_player.move(m_movementSpeed, 0.f);
     }
     void jump() {
-        m_player.move(0, float(-jumpSpeed)); // "narrowing conversion from double to float" error
+        m_player.move(0, -jumpSpeed);
         m_isJumping = true;
     }
     void setIsJumping(const bool isJumping) {
@@ -139,7 +139,7 @@ public:
     }
     void checkJumpFinish() {
         if (m_player.getPosition().y < m_groundHeight && !m_isJumping) {
-            m_player.move(0, float(m_gravitySpeed));
+            m_player.move(0, m_gravitySpeed);
         }
     }
     void goalBoundsCollision(sf::Vector2u windowSize, float goalWidth) {
@@ -149,8 +149,8 @@ public:
             m_player.setPosition(goalWidth, playerBounds.top);
         }
         // right goal collision
-        else if (playerBounds.left + playerBounds.width >= float(windowSize.x) - goalWidth) {
-            m_player.setPosition(float(windowSize.x) - goalWidth - playerBounds.width, playerBounds.top);
+        else if (playerBounds.left + playerBounds.width >= static_cast<float>(windowSize.x) - goalWidth) {
+            m_player.setPosition(static_cast<float>(windowSize.x) - goalWidth - playerBounds.width, playerBounds.top);
         }
     }
 };
@@ -178,7 +178,7 @@ public:
 //    bool IsFullscreen();
     sf::Vector2u GetWindowSize();
     void ToggleFullscreen();
-    void Draw(sf::Drawable& l_drawable);
+    void Draw(const sf::Drawable& l_drawable);
 };
 Window::Window(){
     Setup("Window", sf::Vector2u(640,480));
@@ -233,7 +233,7 @@ void Window::Display(){ m_window.display(); }
 bool Window::IsDone() const{ return m_isDone; }
 //bool Window::IsFullscreen(){ return m_isFullscreen; }
 sf::Vector2u Window::GetWindowSize(){ return m_windowSize; }
-void Window::Draw(sf::Drawable& l_drawable){
+void Window::Draw(const sf::Drawable& l_drawable){
     m_window.draw(l_drawable);
 }
 
@@ -261,10 +261,10 @@ void Game::Update(){
 }
 void Game::Render(){
     m_window.Clear();
-    m_window.Draw((sf::Drawable &) ball.getSprite());
-    m_window.Draw((sf::Drawable &) player.getSprite());
-    m_window.Draw((sf::Drawable &) goalRight.getSprite());
-    m_window.Draw((sf::Drawable &) goalLeft.getSprite());
+    m_window.Draw(ball.getSprite());
+    m_window.Draw(player.getSprite());
+    m_window.Draw(goalRight.getSprite());
+    m_window.Draw(goalLeft.getSprite());
     goalRight.setPosition(); // poarta din dreapta
     goalLeft.setPosition();  // poarta din stanga
 
