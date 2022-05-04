@@ -91,9 +91,9 @@ private:
     float m_movementSpeed;
     // gravity variables
     const float m_groundHeight = 330.f;
-    const float m_gravitySpeed = 0.3;
+    const float m_gravitySpeed = static_cast<float>(0.3);
     bool m_isJumping = false;
-    const float jumpSpeed = 0.2;
+    const float jumpSpeed = static_cast<float>(0.2);
 
 public:
     Player(const std::string& texturePath, const float& movementSpeed) : m_texturePath{texturePath}, m_movementSpeed{movementSpeed} {
