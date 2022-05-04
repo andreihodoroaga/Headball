@@ -111,5 +111,5 @@ target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system)
 
 # copy binaries to bin folder; these are uploaded as artifacts on each release
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
-# install(DIRECTORY resure DESTINATION bin)
+install(DIRECTORY resources DESTINATION bin)
 # install(FILES some_file1.txt some_file2.md DESTINATION bin)
