@@ -10,10 +10,11 @@
 class Game {
 private:
     Window m_window;
-    Ball ball{"./resources/ball1.png", sf::Vector2i(1,1)};
-    Player player{"./resources/player.gif", 0.1f};
+    Ball ball{"./resources/ball1.png", sf::Vector2f(350, 170)};
+    Player player{"./resources/player.png", 0.1f, sf::Vector2f(400, 364)};
     Goal goalRight{"./resources/goal1.png", sf::Vector2u(718,330)};
     Goal goalLeft{"./resources/goal2.png", sf::Vector2u(0,330)};
+    bool startNewRound = true;
 public:
     Game();
     ~Game();

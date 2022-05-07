@@ -12,10 +12,10 @@ private:
     std::string m_texturePath;
     sf::Texture m_ballTexture;
     sf::Sprite m_ball;
-    sf::Vector2i m_increment;
+    sf::Vector2f m_position;
 public:
     // constructor de initializare
-    Ball(const std::string& texturePath, sf::Vector2i increment);
+    Ball(const std::string& texturePath, const sf::Vector2f& position);
     // constructor de copiere
     Ball(const Ball& other);
     // operator= de copiere
@@ -30,6 +30,7 @@ public:
 //    void Move() {
 //        m_ball.setPosition(sf::Vector2f(100, 200));
 //    }
+    void setPosition(const sf::Vector2f& position);
 };
 
 

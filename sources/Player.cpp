@@ -1,17 +1,13 @@
-//
-// Created by user on 04.05.2022.
-//
-
 #include "../headers/Player.h"
 
-Player::Player(const std::string &texturePath, const float &movementSpeed) : m_texturePath{texturePath}, m_movementSpeed{movementSpeed} {
+Player::Player(const std::string &texturePath, const float &movementSpeed, const sf::Vector2f &position) : m_texturePath{texturePath}, m_position{position}, m_movementSpeed{movementSpeed} {
     m_texture.loadFromFile(texturePath);
     m_player.setTexture(m_texture);
-    m_player.setPosition(300, 250);
+    m_player.setPosition(m_position.x, m_position.y);
     std::cout << "Constructor de initializare Player.\n";
 }
 
-Player::Player(const Player &other) : m_texturePath{other.m_texturePath}, m_movementSpeed{other.m_movementSpeed}{
+[[maybe_unused]] Player::Player(const Player &other) : m_texturePath{other.m_texturePath}, m_position{other.m_position}, m_movementSpeed{other.m_movementSpeed}{
     std::cout << "Constructor de copiere Player.\n";
 }
 
@@ -64,7 +60,7 @@ void Player::goalBoundsCollision(sf::Vector2u windowSize, float goalWidth) {
     if (playerBounds.left <= goalWidth) {
         m_player.setPosition(goalWidth, playerBounds.top);
     }
-        // right goal collision
+    // right goal collision
     else if (playerBounds.left + playerBounds.width >= static_cast<float>(windowSize.x) - goalWidth) {
         m_player.setPosition(static_cast<float>(windowSize.x) - goalWidth - playerBounds.width, playerBounds.top);
     }

@@ -1,18 +1,19 @@
 #include "../headers/Ball.h"
 
-Ball::Ball(const std::string &texturePath, sf::Vector2i increment) : m_texturePath{texturePath}, m_increment{increment} {
+Ball::Ball(const std::string &texturePath, const sf::Vector2f& position) : m_texturePath{texturePath}, m_position{position} {
     m_ballTexture.loadFromFile(texturePath);
     m_ball.setTexture(m_ballTexture);
+    m_ball.setPosition(m_position.x, m_position.y);
     std::cout << "Constructor de initializare Ball.\n";
 }
 
-Ball::Ball(const Ball &other) : m_texturePath{other.m_texturePath}, m_increment{other.m_increment} {
+Ball::Ball(const Ball &other) : m_texturePath{other.m_texturePath}, m_position{other.m_position} {
     std::cout << "Constructor de copiere Ball.\n";
 }
 
 Ball &Ball::operator=(const Ball &other) {
     m_texturePath = other.m_texturePath;
-    m_increment = other.m_increment;
+    m_position = other.m_position;
     std::cout << "operator= copiere Ball\n";
     return *this;
 }
@@ -28,4 +29,8 @@ std::ostream &operator<<(std::ostream &os, const Ball &ball) {
 
 const sf::Sprite &Ball::getSprite() {
     return m_ball;
+}
+
+void Ball::setPosition(const sf::Vector2f& position) {
+    m_ball.setPosition(position.x, position.y);
 }

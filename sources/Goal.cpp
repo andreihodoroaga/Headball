@@ -7,6 +7,7 @@
 Goal::Goal(const std::string &texturePath, const sf::Vector2u &position) : m_position{position}, m_texturePath{texturePath} {
     m_texture.loadFromFile(texturePath);
     m_goal.setTexture(m_texture);
+    m_goal.setPosition(m_position.x, m_position.y);
     std::cout << "Constructor de initializare Goal.\n";
 }
 
@@ -32,10 +33,6 @@ std::ostream &operator<<(std::ostream &os, const Goal &goal) {
 
 const sf::Sprite &Goal::getSprite() {
     return m_goal;
-}
-
-void Goal::setPosition() {
-    m_goal.setPosition(m_position.x, m_position.y);
 }
 
 float Goal::getWidth() {
