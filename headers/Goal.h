@@ -11,21 +11,17 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <iostream>
+#include "Actor.h"
 
-class Goal {
-private:
-    sf::Vector2f m_position;
-    std::string m_texturePath;
-    sf::Texture m_texture;
-    sf::Sprite m_goal;
+class Goal : public Actor {
 public:
-    Goal(const std::string& texturePath, const sf::Vector2u& position);
+    Goal(const std::string& texturePath, sf::Vector2<float> position);
     Goal(const Goal& other);
     Goal& operator=(const Goal& other);
     ~Goal();
     friend std::ostream& operator<<(std::ostream &os, const Goal& goal);
     const sf::Sprite& getSprite();
-    void setPosition();
+
     float getWidth();
 };
 

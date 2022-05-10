@@ -6,13 +6,10 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <iostream>
+#include "Actor.h"
 
-class Player {
+class Player : public Actor {
 private:
-    std::string m_texturePath;
-    sf::Texture m_texture;
-    sf::Sprite m_player;
-    sf::Vector2f m_position;
     float m_movementSpeed;
 
     // gravity variables
@@ -21,13 +18,28 @@ private:
     bool m_isJumping = false;
     const float jumpSpeed = 0.2f;
 
+    // physics
+    sf::Vector2f velocity;
+    float velocityMax;
+    float velocityMin;
+    float acceleration;
+    float drag;
+    float gravity;
+    float velocityMaxY;
+
 public:
-    Player(const std::string& texturePath, const float& movementSpeed, const sf::Vector2f& position);
+    Player(const std::string& texturePath, const sf::Vector2f& position, const float& movementSpeed);
     [[maybe_unused]] Player(const Player& other);
     Player& operator=(const Player& other);
     ~Player();
     friend std::ostream& operator<<(std::ostream &os, const Player& player);
     const sf::Sprite& getSprite();
+    void initPhysics();
+    sf::FloatRect getGlobalBounds();
+    void setPosition(float x, float y);
+    void resetVelocityY();
+    void move(float dir_x, float dir_y);
+    void updatePhysics();
     void moveLeft();
     void moveRight();
     void jump();

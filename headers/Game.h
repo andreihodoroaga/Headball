@@ -11,9 +11,9 @@ class Game {
 private:
     Window m_window;
     Ball ball{"./resources/ball1.png", sf::Vector2f(350, 170)};
-    Player player{"./resources/player.png", 0.1f, sf::Vector2f(400, 364)};
-    Goal goalRight{"./resources/goal1.png", sf::Vector2u(718,330)};
-    Goal goalLeft{"./resources/goal2.png", sf::Vector2u(0,330)};
+    Player player{"./resources/player.png", sf::Vector2f(400, 364), 0.1f};
+    Goal goalRight{"./resources/goal1.png", sf::Vector2f(718,330)};
+    Goal goalLeft{"./resources/goal2.png", sf::Vector2f(0,330)};
     bool startNewRound = true;
 public:
     Game();
@@ -21,6 +21,7 @@ public:
     void HandleInput();
     void Update();
     void Render();
+    void HandlePlayerCollision();
     Window& GetWindow();
 };
 

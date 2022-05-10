@@ -34,7 +34,7 @@ FetchContent_MakeAvailable(SFML)
 ###############################################################################
 
 # NOTE: update executable name in .github/workflows/cmake.yml when changing name here
-add_executable(${PROJECT_NAME} main.cpp sources/Ball.cpp headers/Ball.h sources/Goal.cpp headers/Goal.h sources/Player.cpp headers/Player.h sources/Window.cpp headers/Window.h sources/Game.cpp headers/Game.h)
+add_executable(${PROJECT_NAME} main.cpp sources/Ball.cpp headers/Ball.h sources/Goal.cpp headers/Goal.h sources/Player.cpp headers/Player.h sources/Window.cpp headers/Window.h sources/Game.cpp headers/Game.h sources/Actor.cpp headers/Actor.h)
 
 ###############################################################################
 

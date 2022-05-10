@@ -6,13 +6,9 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <iostream>
+#include "Actor.h"
 
-class Ball {
-private:
-    std::string m_texturePath;
-    sf::Texture m_ballTexture;
-    sf::Sprite m_ball;
-    sf::Vector2f m_position;
+class Ball : public Actor{
 public:
     // constructor de initializare
     Ball(const std::string& texturePath, const sf::Vector2f& position);
@@ -28,7 +24,7 @@ public:
     const sf::Sprite& getSprite();
     // miscare minge
 //    void Move() {
-//        m_ball.setPosition(sf::Vector2f(100, 200));
+//        m_sprite.setPosition(sf::Vector2f(100, 200));
 //    }
     void setPosition(const sf::Vector2f& position);
 };

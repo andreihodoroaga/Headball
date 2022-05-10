@@ -4,14 +4,11 @@
 
 #include "../headers/Goal.h"
 
-Goal::Goal(const std::string &texturePath, const sf::Vector2u &position) : m_position{position}, m_texturePath{texturePath} {
-    m_texture.loadFromFile(texturePath);
-    m_goal.setTexture(m_texture);
-    m_goal.setPosition(m_position.x, m_position.y);
+Goal::Goal(const std::string &texturePath, sf::Vector2<float> position) : Actor(texturePath, position) {
     std::cout << "Constructor de initializare Goal.\n";
 }
 
-Goal::Goal(const Goal &other) : m_position{other.m_position}, m_texturePath{other.m_texturePath} {
+Goal::Goal(const Goal &other) : Actor(other) {
     std::cout << "Constructor de copiere Goal.\n";
 }
 
@@ -32,9 +29,9 @@ std::ostream &operator<<(std::ostream &os, const Goal &goal) {
 }
 
 const sf::Sprite &Goal::getSprite() {
-    return m_goal;
+    return m_sprite;
 }
 
 float Goal::getWidth() {
-    return m_goal.getGlobalBounds().width;
+    return m_sprite.getGlobalBounds().width;
 }
