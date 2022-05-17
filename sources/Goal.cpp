@@ -4,11 +4,11 @@
 
 #include "../headers/Goal.h"
 
-Goal::Goal(const std::string &texturePath, sf::Vector2<float> position) : Actor(texturePath, position) {
+Goal::Goal(const std::string &texturePath, sf::Vector2<float> position) : Entity(texturePath, position) {
     std::cout << "Constructor de initializare Goal.\n";
 }
 
-Goal::Goal(const Goal &other) : Actor(other) {
+Goal::Goal(const Goal &other) : Entity(other) {
     std::cout << "Constructor de copiere Goal.\n";
 }
 

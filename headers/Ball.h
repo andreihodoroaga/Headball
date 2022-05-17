@@ -6,9 +6,19 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <iostream>
-#include "Actor.h"
+#include <memory>
+#include "Entity.h"
 
-class Ball : public Actor{
+class Ball : public Entity{
+private:
+    // physics
+    sf::Vector2f velocity;
+    float velocityMax = 0.75f;
+    float velocityMin = 0.05f;
+    float acceleration = 0.85;
+    float drag = 0.1f;
+    float gravity = 1.f;
+    float velocityMaxY = 2.f;
 public:
     // constructor de initializare
     Ball(const std::string& texturePath, const sf::Vector2f& position);
@@ -18,15 +28,18 @@ public:
     Ball& operator=(const Ball& other);
     // destructor
     ~Ball();
+    // clone
+    std::shared_ptr<Entity> clone() const override {
+        return std::make_shared<Ball>(*this);
+    }
     // operator<<
     friend std::ostream& operator<<(std::ostream &os, const Ball& ball);
     // getter sprite
     const sf::Sprite& getSprite();
-    // miscare minge
-//    void Move() {
-//        m_sprite.setPosition(sf::Vector2f(100, 200));
-//    }
     void setPosition(const sf::Vector2f& position);
+    // ball movement
+    void move(float dir_x, float dir_y);
+    void updatePhysics();
 };
 
 

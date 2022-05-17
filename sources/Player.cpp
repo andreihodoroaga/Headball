@@ -1,11 +1,11 @@
 #include "../headers/Player.h"
 
-Player::Player(const std::string &texturePath, const sf::Vector2f &position, const float &movementSpeed) : Actor(texturePath, position), m_movementSpeed{movementSpeed} {
+Player::Player(const std::string &texturePath, const sf::Vector2f &position, const float &movementSpeed) : Entity(texturePath, position), m_movementSpeed{movementSpeed} {
     initPhysics();
     std::cout << "Constructor de initializare Player.\n";
 }
 
-[[maybe_unused]] Player::Player(const Player &other) : Actor(other), m_movementSpeed{other.m_movementSpeed}{
+[[maybe_unused]] Player::Player(const Player &other) : Entity(other), m_movementSpeed{other.m_movementSpeed}{
     std::cout << "Constructor de copiere Player.\n";
 }
 

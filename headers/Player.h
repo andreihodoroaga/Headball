@@ -6,9 +6,9 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <iostream>
-#include "Actor.h"
+#include "Entity.h"
 
-class Player : public Actor {
+class Player : public Entity {
 private:
     float m_movementSpeed;
 
@@ -33,6 +33,9 @@ public:
     Player& operator=(const Player& other);
     ~Player();
     friend std::ostream& operator<<(std::ostream &os, const Player& player);
+    std::shared_ptr<Entity> clone() const override {
+        return std::make_shared<Player>(*this);
+    }
     const sf::Sprite& getSprite();
     void initPhysics();
     sf::FloatRect getGlobalBounds();
@@ -47,6 +50,5 @@ public:
     void checkJumpFinish();
     void goalBoundsCollision(sf::Vector2u windowSize, float goalWidth);
 };
-
 
 #endif //OOP_PLAYER_H

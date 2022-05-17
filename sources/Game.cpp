@@ -16,8 +16,6 @@ void Game::Update(){
     }
     // player logic
     HandlePlayerCollision();
-//    player.checkJumpFinish();
-//    player.goalBoundsCollision(m_window.GetWindowSize(), goalRight.getWidth());
 }
 void Game::Render(){
     m_window.Clear();
