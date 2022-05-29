@@ -15,7 +15,7 @@ private:
     sf::Vector2f velocity;
     float velocityMax = 0.75f;
     float velocityMin = 0.05f;
-    float acceleration = 0.85;
+    float acceleration = 0.85f;
     float drag = 0.1f;
     float gravity = 1.f;
     float velocityMaxY = 2.f;
