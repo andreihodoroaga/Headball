@@ -4,7 +4,7 @@ Player::Player(const std::string &texturePath, const sf::Vector2f &position, con
     std::cout << "Constructor de initializare Player.\n";
 }
 
-[[maybe_unused]] Player::Player(const Player &other) : Entity(other), m_movementSpeed{other.m_movementSpeed}, velocity{other.velocity}{
+Player::Player(const Player &other) : Entity(other), m_movementSpeed{other.m_movementSpeed}, velocity{other.velocity}{
     std::cout << "Constructor de copiere Player.\n";
 }
 

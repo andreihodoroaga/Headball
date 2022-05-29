@@ -21,12 +21,16 @@ void Bot::goalBoundsCollision(sf::Vector2u windowSize, float goalWidth) {
     }
 }
 
-void Bot::moveRandom() {
+std::shared_ptr<Player> Bot::clone() const {
+    return std::make_shared<Bot>(*this);
+}
+
+void Bot::movePlayer(float x, float y) {
     std::random_device rd;
     std::mt19937 mt(rd());
     std::uniform_real_distribution<double> dist(1.0, 10.0);
 
-    int randomNr = floor(dist(mt));
+    double randomNr = floor(dist(mt));
 
     if(randomNr == 1) {
         move(1.0f, 0.f); // move right
@@ -34,12 +38,8 @@ void Bot::moveRandom() {
     else if(randomNr == 2)
         move(-1.f, 0.f); // move left
     else
-        if(randomNr == 3) {
-            if(getPosition().y > 355)
-                move(0.f, -4.f);
-        }
-}
-
-std::shared_ptr<Player> Bot::clone() const {
-    return std::make_shared<Bot>(*this);
+    if(randomNr == 3) {
+        if(getPosition().y > 355)
+            move(x, y);
+    }
 }

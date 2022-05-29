@@ -12,7 +12,8 @@ Entity::Entity(const std::string &texturePath, const sf::Vector2f &position) : m
     m_sprite.setPosition(m_position.x, m_position.y);
 }
 
-Entity::Entity(const Entity &other) : m_texturePath(other.m_texturePath), m_texture(other.m_texture) , m_position(other.m_position){
+Entity::Entity(const Entity &other) : m_texturePath(other.m_texturePath), m_texture(other.m_texture), m_sprite(other.m_sprite), m_position(other.m_position){
+    m_sprite.setTexture(m_texture);
     std::cout << "Constructor de copiere Entity\n";
 }
 

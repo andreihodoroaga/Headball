@@ -10,9 +10,8 @@
 
 class Player : public Entity {
 private:
-    float m_movementSpeed;
-
     // physics
+    float m_movementSpeed;
     sf::Vector2f velocity;
     constexpr static const float velocityMax = 0.75f;
     constexpr static const float velocityMin = 0.05f;
@@ -35,6 +34,7 @@ public:
     void scale(float x, float y);
     void resetVelocityY();
     void move(float dir_x, float dir_y);
+    virtual void movePlayer(float x, float y) = 0;
     void updatePhysics();
     virtual void goalBoundsCollision(sf::Vector2u windowSize, float goalWidth) = 0;
 };

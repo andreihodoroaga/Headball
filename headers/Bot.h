@@ -12,8 +12,9 @@ public:
     }
     Bot(const Bot& other);
 
+    void movePlayer(float x, float y) override;
+
     void goalBoundsCollision(sf::Vector2u windowSize, float goalWidth) override;
-    void moveRandom();
     std::shared_ptr<Player> clone() const override;
 };
 

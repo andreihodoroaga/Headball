@@ -2,6 +2,10 @@
 
 Human::Human(const std::string &texturePath, const sf::Vector2f &position, const float &movementSpeed) : Player(texturePath, position, movementSpeed) {}
 
+Human::Human(const Human &other) : Player(other) {
+    std::cout << "Constructor de copiere Human\n";
+}
+
 void Human::goalBoundsCollision(sf::Vector2u windowSize, float goalWidth) {
     // left goal collision
     sf::FloatRect playerBounds = m_sprite.getGlobalBounds();
@@ -17,3 +21,13 @@ void Human::goalBoundsCollision(sf::Vector2u windowSize, float goalWidth) {
 std::shared_ptr<Player> Human::clone() const {
     return std::make_shared<Human>(*this);
 }
+
+void Human::movePlayer(float x, float y) {
+    move(x, y);
+}
+
+std::ostream &operator<<(std::ostream &os, const Human &human) {
+    os << static_cast<const Player &>(human);
+    return os;
+}
+
