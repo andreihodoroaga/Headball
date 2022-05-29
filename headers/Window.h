@@ -25,12 +25,15 @@ public:
     ~Window();
     void Clear(); // Clear the window.
     void Display(); // Display the changes.
-    void Update(Player& player);
+    void Update();
     bool IsDone() const;
 //    bool IsFullscreen();
     sf::Vector2u GetWindowSize();
     void ToggleFullscreen();
     void Draw(const sf::Drawable& l_drawable);
+    sf::Vector2f getSize() {
+        return static_cast<sf::Vector2f>(m_window.getSize());
+    }
 };
 
 

@@ -21,9 +21,6 @@ public:
     Goal& operator=(const Goal& other);
     ~Goal();
     friend std::ostream& operator<<(std::ostream &os, const Goal& goal);
-    std::shared_ptr<Entity> clone() const override {
-        return std::make_shared<Goal>(*this);
-    }
     const sf::Sprite& getSprite();
     float getWidth();
 };

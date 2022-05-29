@@ -27,20 +27,16 @@ void Window::Create(){
 void Window::Destroy(){
     m_window.close();
 }
-void Window::Update(Player& player){
+void Window::Update(){
     sf::Event event{};
     while(m_window.pollEvent(event)){
-        if(event.type == sf::Event::Closed) {
+        if(event.type == sf::Event::Closed ||
+        (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Q)) {
             m_isDone = true;
         }
         else if(event.type == sf::Event::KeyPressed &&
                 event.key.code == sf::Keyboard::F11) {
             ToggleFullscreen();
-        }
-        else if (event.type == sf::Event::KeyReleased) {
-            if(event.key.code == sf::Keyboard::W) {
-                player.setIsJumping(false);
-            }
         }
     }
 }

@@ -28,10 +28,6 @@ public:
     Ball& operator=(const Ball& other);
     // destructor
     ~Ball();
-    // clone
-    std::shared_ptr<Entity> clone() const override {
-        return std::make_shared<Ball>(*this);
-    }
     // operator<<
     friend std::ostream& operator<<(std::ostream &os, const Ball& ball);
     // getter sprite

@@ -12,43 +12,31 @@ class Player : public Entity {
 private:
     float m_movementSpeed;
 
-    // gravity variables
-    const float m_groundHeight = 364.f;
-    const float m_gravitySpeed = 0.3f;
-    bool m_isJumping = false;
-    const float jumpSpeed = 0.2f;
-
     // physics
     sf::Vector2f velocity;
-    float velocityMax;
-    float velocityMin;
-    float acceleration;
-    float drag;
-    float gravity;
-    float velocityMaxY;
+    constexpr static const float velocityMax = 0.75f;
+    constexpr static const float velocityMin = 0.05f;
+    constexpr static const float acceleration = 0.85f;
+    constexpr static const float drag = 0.1f;
+    constexpr static const float gravity = 1.f;
+    constexpr static const float velocityMaxY = 5.f;
 
 public:
     Player(const std::string& texturePath, const sf::Vector2f& position, const float& movementSpeed);
-    [[maybe_unused]] Player(const Player& other);
+    Player(const Player& other);
     Player& operator=(const Player& other);
-    ~Player();
+    ~Player() override;
     friend std::ostream& operator<<(std::ostream &os, const Player& player);
-    std::shared_ptr<Entity> clone() const override {
-        return std::make_shared<Player>(*this);
-    }
     const sf::Sprite& getSprite();
-    void initPhysics();
+    virtual std::shared_ptr<Player> clone() const = 0;
     sf::FloatRect getGlobalBounds();
+    sf::Vector2f getPosition();
     void setPosition(float x, float y);
+    void scale(float x, float y);
     void resetVelocityY();
     void move(float dir_x, float dir_y);
     void updatePhysics();
-    void moveLeft();
-    void moveRight();
-    void jump();
-    void setIsJumping(bool isJumping);
-    void checkJumpFinish();
-    void goalBoundsCollision(sf::Vector2u windowSize, float goalWidth);
+    virtual void goalBoundsCollision(sf::Vector2u windowSize, float goalWidth) = 0;
 };
 
 #endif //OOP_PLAYER_H

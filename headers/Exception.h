@@ -1,7 +1,3 @@
-//
-// Created by user on 16.05.2022.
-//
-
 #ifndef OOP_EXCEPTION_H
 #define OOP_EXCEPTION_H
 #include <exception>
@@ -14,7 +10,12 @@ public:
 
 class FileError : public AppError {
 public:
-    FileError(const std::string &arg = "") : AppError(arg) {}
+    explicit FileError(const std::string &arg = "") : AppError(arg) {}
+};
+
+class PlayerOutOfBounds : public AppError {
+public:
+    explicit PlayerOutOfBounds(const std::string &arg = "") : AppError(arg) {}
 };
 
 #endif //OOP_EXCEPTION_H

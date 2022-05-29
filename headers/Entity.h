@@ -16,7 +16,6 @@ protected:
 public:
     Entity(const std::string &texturePath, const sf::Vector2f &position);
     Entity(const Entity& other);
-    virtual std::shared_ptr<Entity> clone() const = 0;
     virtual ~Entity();
 };
 
