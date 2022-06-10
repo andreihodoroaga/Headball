@@ -19,11 +19,16 @@ public:
     Goal(const std::string& texturePath, sf::Vector2<float> position);
     Goal(const Goal& other);
     Goal& operator=(const Goal& other);
-    ~Goal();
+    ~Goal() override;
     friend std::ostream& operator<<(std::ostream &os, const Goal& goal);
     const sf::Sprite& getSprite();
     float getWidth();
 };
 
+class GoalFactory {
+public:
+    static Goal GoalLeft() {return {"./resources/goal2.png", sf::Vector2f(0,330)};}
+    static Goal GoalRight() {return {"./resources/goal1.png", sf::Vector2f(718,330)};}
+};
 
 #endif //OOP_GOAL_H

@@ -3,15 +3,19 @@
 #include "../headers/Exception.h"
 
 Game::Game(): m_window("Headball", sf::Vector2u(800,600)){
-    if (player->getPosition().x > m_window.getSize().x || player->getPosition().x < 0 ||
-        player->getPosition().y > m_window.getSize().y || player->getPosition().y < 0) {
-        std::string arg = "The player is out of bounds\n";
-        throw PlayerOutOfBounds(arg);
-    }
+    checkPlayerInBounds(*human);
+    checkPlayerInBounds(*bot);
 }
+
 Game::~Game(){
     std::cout << "Destructor Game\n";
 }
+
+Game &Game::get_Game() {
+    static Game game;
+    return game;
+}
+
 void Game::Update(){
     m_window.Update(); // update window events
 
@@ -20,10 +24,10 @@ void Game::Update(){
         ball.setPosition(sf::Vector2f(350, 170));
         startNewRound = false;
     } else {
-        DisplayWinner(*player); // apelez ca sa scap de warning din clang 11 :*
+        DisplayWinner(*human); // apelez ca sa scap de warning din clang 11 :*
     }
-    // player logic
-    Update(*player);
+    // human logic
+    Update(*human);
     Update(*bot);
 }
 
@@ -37,7 +41,7 @@ void Game::Update(Player &player_) {
 void Game::Render(){
     m_window.Clear();
     m_window.Draw(ball.getSprite());
-    m_window.Draw(player->getSprite());
+    m_window.Draw(human->getSprite());
     m_window.Draw(bot->getSprite());
     m_window.Draw(goalRight.getSprite());
     m_window.Draw(goalLeft.getSprite());
@@ -47,19 +51,19 @@ Window& Game::GetWindow() {return m_window;}
 void Game::HandleInput() {
     // keyboard input
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        player->movePlayer(-1.f, 0.f);
+        human->movePlayer(-1.f, 0.f);
     }
     else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        player->movePlayer(1.f, 0.f);
+        human->movePlayer(1.f, 0.f);
     }
     else if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        player->movePlayer(0.f, -1.f);
+        human->movePlayer(0.f, -1.f);
     }
     bot->movePlayer(0.f, -4.f);
 }
 
 void Game::HandlePlayerCollision(Player& player_) {
-    // collision of player with the bottom of the screen
+    // collision of the player with the bottom of the screen
     if(player_.getGlobalBounds().top > 364) {
         player_.resetVelocityY();
         player_.setPosition(player_.getGlobalBounds().left, 364);
@@ -70,5 +74,13 @@ void Game::DisplayWinner(const Player &winner) {
     std::shared_ptr<Player> winnerClone = winner.clone();
     winnerClone->setPosition(500, 200);
     m_window.Draw(winnerClone->getSprite());
+}
+
+void Game::checkPlayerInBounds(Player& player) {
+    if (player.getPosition().x > m_window.getSize().x || player.getPosition().x < 0 ||
+            player.getPosition().y > m_window.getSize().y || player.getPosition().y < 0) {
+        std::string arg = "The player is out of bounds\n";
+        throw PlayerOutOfBounds(arg);
+    }
 }
 

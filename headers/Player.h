@@ -10,15 +10,19 @@
 
 class Player : public Entity {
 private:
+    // score
+    int nrGoals = 0;
     // physics
     float m_movementSpeed;
     sf::Vector2f velocity;
     constexpr static const float velocityMax = 0.75f;
     constexpr static const float velocityMin = 0.05f;
-    constexpr static const float acceleration = 0.85f;
     constexpr static const float drag = 0.1f;
     constexpr static const float gravity = 1.f;
     constexpr static const float velocityMaxY = 5.f;
+
+protected:
+    float acceleration = 0.85f;
 
 public:
     Player(const std::string& texturePath, const sf::Vector2f& position, const float& movementSpeed);
@@ -37,6 +41,12 @@ public:
     virtual void movePlayer(float x, float y) = 0;
     void updatePhysics();
     virtual void goalBoundsCollision(sf::Vector2u windowSize, float goalWidth) = 0;
+    void addGoal();
+    template<typename T>
+    T computeScore(T scoreVariable) {
+        return nrGoals * scoreVariable;
+    }
+    virtual void afiseazaScor() = 0;
 };
 
 #endif //OOP_PLAYER_H

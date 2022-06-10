@@ -1,4 +1,5 @@
 #include "../headers/Bot.h"
+#include <cmath>
 #include <random>
 
 Bot::Bot(const std::string &texturePath, const sf::Vector2f &position, const float &movementSpeed) : Player(texturePath, position, movementSpeed) {
@@ -42,4 +43,16 @@ void Bot::movePlayer(float x, float y) {
         if(getPosition().y > 355)
             move(x, y);
     }
+}
+
+Bot::~Bot() {
+    std::cout << "Destructor Bot\n";
+}
+
+void Bot::afiseazaScor() {
+    std::cout << "ok";
+}
+
+void Player::afiseazaScor() {
+    std::cout << computeScore(static_cast<int>(std::floor(acceleration)));
 }

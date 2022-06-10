@@ -5,7 +5,7 @@
 int main()
 {
     try {
-        Game game;
+        auto& game = Game::get_Game();
         while(!game.GetWindow().IsDone()) {
             // Game loop
             game.HandleInput();

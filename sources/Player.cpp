@@ -1,4 +1,5 @@
 #include "../headers/Player.h"
+#include "../headers/Score.h"
 
 Player::Player(const std::string &texturePath, const sf::Vector2f &position, const float &movementSpeed) : Entity(texturePath, position), m_movementSpeed{movementSpeed} {
     std::cout << "Constructor de initializare Player.\n";
@@ -78,4 +79,8 @@ sf::Vector2f Player::getPosition() {
 
 void Player::scale(float x, float y) {
     m_sprite.scale(x, y);
+}
+
+void Player::addGoal() {
+    nrGoals++;
 }
