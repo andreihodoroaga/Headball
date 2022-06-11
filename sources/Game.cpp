@@ -24,7 +24,11 @@ void Game::Update(){
         ball.setPosition(sf::Vector2f(350, 170));
         startNewRound = false;
     } else if(done) {
-        DisplayWinner(*human); // apelez ca sa scap de warning din clang 11 :*
+        // for educational purposes adaug un gol aici
+        human->addGoal();
+        human->afiseazaScor();
+        bot->afiseazaScor();
+        DisplayWinner(*human);
         done = false;
     }
     // human logic

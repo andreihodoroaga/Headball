@@ -50,9 +50,5 @@ Bot::~Bot() {
 }
 
 void Bot::afiseazaScor() {
-    std::cout << "ok";
-}
-
-void Player::afiseazaScor() {
     std::cout << computeScore(static_cast<int>(std::floor(acceleration)));
 }
