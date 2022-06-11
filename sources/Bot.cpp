@@ -2,7 +2,7 @@
 #include <cmath>
 #include <random>
 
-Bot::Bot(const std::string &texturePath, const sf::Vector2f &position, const float &movementSpeed) : Player(texturePath, position, movementSpeed) {
+Bot::Bot(const std::string &texturePath, const sf::Vector2f &position, const float &movementSpeed) : Player(texturePath, position, movementSpeed), score(Score<int>(0)) {
     m_sprite.setColor(sf::Color(220, 20, 60));
 }
 

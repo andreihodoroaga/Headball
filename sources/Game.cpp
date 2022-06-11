@@ -23,8 +23,9 @@ void Game::Update(){
     if (startNewRound) {
         ball.setPosition(sf::Vector2f(350, 170));
         startNewRound = false;
-    } else {
+    } else if(done) {
         DisplayWinner(*human); // apelez ca sa scap de warning din clang 11 :*
+        done = false;
     }
     // human logic
     Update(*human);

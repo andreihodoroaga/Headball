@@ -1,6 +1,6 @@
 #include "../headers/Human.h"
 
-Human::Human(const std::string &texturePath, const sf::Vector2f &position, const float &movementSpeed) : Player(texturePath, position, movementSpeed) {}
+Human::Human(const std::string &texturePath, const sf::Vector2f &position, const float &movementSpeed) : Player(texturePath, position, movementSpeed), score(Score<float>(0.f)) {}
 
 Human::Human(const Human &other) : Player(other) {
     std::cout << "Constructor de copiere Human\n";

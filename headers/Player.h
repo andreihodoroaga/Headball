@@ -10,7 +10,6 @@
 
 class Player : public Entity {
 private:
-    // score
     int nrGoals = 0;
     // physics
     float m_movementSpeed;

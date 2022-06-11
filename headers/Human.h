@@ -7,7 +7,8 @@
 
 class Human : public Player {
 private:
-    Score<float> score{};
+    // score
+    Score<float> score;
 public:
     Human(const std::string &texturePath, const sf::Vector2f &position, const float &movementSpeed);
     ~Human() override = default;

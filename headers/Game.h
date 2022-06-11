@@ -18,6 +18,7 @@ private:
     Goal goalLeft{"./resources/goal2.png", sf::Vector2f(0,330)};
     Goal goalRight{"./resources/goal1.png", sf::Vector2f(718,330)};
     bool startNewRound = true;
+    bool done = false;
 public:
     Game(const Game&) = delete;
     Game& operator=(const Game&) = delete;
