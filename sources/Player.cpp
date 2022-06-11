@@ -81,6 +81,6 @@ void Player::scale(float x, float y) {
     m_sprite.scale(x, y);
 }
 
-void Player::addGoal() {
+[[maybe_unused]] void Player::addGoal() {
     nrGoals++;
 }

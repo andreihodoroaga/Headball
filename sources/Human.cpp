@@ -32,6 +32,6 @@ std::ostream &operator<<(std::ostream &os, const Human &human) {
 }
 
 // afiseaza scorul care e float pt human si int pt bot (for educational purposes)
-void Human::afiseazaScor() {
+[[maybe_unused]]void Human::afiseazaScor() {
     std::cout << computeScore(static_cast<float>(acceleration));
 }
